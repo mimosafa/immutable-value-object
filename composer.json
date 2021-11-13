@@ -1,0 +1,15 @@
+{
+    "name": "mimosafa/immutable-value-object",
+    "autoload": {
+        "psr-4": {
+            "Ivo\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mimoto, Toshimichi",
+            "email": "mimosafa@gmail.com"
+        }
+    ],
+    "require": {}
+}
