@@ -2,6 +2,7 @@
 
 namespace Ivo\Trait;
 
+use Ivo\Util\HasConstantsTrait;
 use LogicException;
 
 trait StringValueTrait
@@ -9,7 +10,7 @@ trait StringValueTrait
     use ScalarValueTrait, HasConstantsTrait;
 
     /**
-     * Acceptable string value rules
+     * Rules for acceptable string values
      *
      * @var array<string, mixed|null>
      */

@@ -38,7 +38,7 @@ interface StringValueInterface extends ScalarValueInterface, Stringable
     /**
      * Raw value getter
      *
-     * @return mixed
+     * @return string
      */
     public function value(): string;
 }
