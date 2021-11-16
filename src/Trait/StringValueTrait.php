@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Ivo\Trait;
 
@@ -13,7 +13,7 @@ trait StringValueTrait
      *
      * @var array<string, mixed|null>
      */
-    private static $rules;
+    private static $stringValueRules;
 
     public function __toString(): string
     {
@@ -35,19 +35,19 @@ trait StringValueTrait
         if (! \is_string($value)) {
             return false;
         }
-        if (! isset(self::$rules)) {
+        if (! isset(self::$stringValueRules)) {
             self::initRules();
         }
-        if (! self::$rules['mb'] && \strlen($value) !== \mb_strlen($value)) {
+        if (! self::$stringValueRules['mb'] && \strlen($value) !== \mb_strlen($value)) {
             return false;
         }
-        if (($pattern = self::$rules['regexp']) && ! \preg_match($pattern, $value)) {
+        if (($pattern = self::$stringValueRules['regexp']) && ! \preg_match($pattern, $value)) {
             return false;
         }
-        if (isset(self::$rules['min']) && self::strlen($value) < self::$rules['min']) {
+        if (isset(self::$stringValueRules['min']) && self::strlen($value) < self::$stringValueRules['min']) {
             return false;
         }
-        if (isset(self::$rules['max']) && self::strlen($value) > self::$rules['max']) {
+        if (isset(self::$stringValueRules['max']) && self::strlen($value) > self::$stringValueRules['max']) {
             return false;
         }
         return true;
@@ -55,7 +55,7 @@ trait StringValueTrait
 
     private static function initRules(): void
     {
-        self::$rules = [
+        self::$stringValueRules = [
             'mb' => self::multibyte(),
             'regexp' => null,
             'min' => null,
@@ -66,28 +66,28 @@ trait StringValueTrait
             if (@\preg_match($pattern, '') === false) {
                 throw new LogicException();
             }
-            self::$rules['regexp'] = $pattern;
+            self::$stringValueRules['regexp'] = $pattern;
         }
         if (self::hasConstant('STRING_MINIMUM_LENGTH')) {
             $min = self::constant('STRING_MINIMUM_LENGTH');
             if (! \is_int($min) || $min < 0) {
                 throw new LogicException();
             }
-            self::$rules['min'] = $min;
+            self::$stringValueRules['min'] = $min;
         }
         if (self::hasConstant('STRING_MAXIMUM_LENGTH')) {
             $max = self::constant('STRING_MAXIMUM_LENGTH');
             if (! \is_int($max) || (isset($min) && $max < $min)) {
                 throw new LogicException();
             }
-            self::$rules['max'] = $max;
+            self::$stringValueRules['max'] = $max;
         }
     }
 
     private static function multibyte(): bool
     {
-        if (self::hasConstant('STRING_MULTIBYTE')) {
-            $mb = self::constant('STRING_MULTIBYTE');
+        if (self::hasConstant('MULTIBYTE_STRING_ACCEPTABLE')) {
+            $mb = self::constant('MULTIBYTE_STRING_ACCEPTABLE');
             if (\is_bool($mb)) {
                 return $mb;
             }
