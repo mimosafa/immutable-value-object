@@ -2,14 +2,14 @@
 
 namespace Ivo\Test;
 
-use Ivo\Mock\MockScalarValue;
+use Ivo\Mock\ScalarValue;
 use PHPUnit\Framework\TestCase;
 
 final class ScalarValueTest extends TestCase
 {
     public function test_instance()
     {
-        $scalar = MockScalarValue::instance(1);
-        $this->assertEquals(1, $scalar->value);
+        $scalar = ScalarValue::instance(1);
+        $this->assertEquals(1, $scalar->value());
     }
 }

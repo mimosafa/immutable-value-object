@@ -6,54 +6,88 @@ use LogicException;
 
 trait StringValueTrait
 {
-    use HasConstantsTrait;
+    use ScalarValueTrait, HasConstantsTrait;
+
+    /**
+     * Acceptable string value rules
+     *
+     * @var array<string, mixed|null>
+     */
+    private static $rules;
 
     public function __toString(): string
     {
-        return \strval($this->value());
+        return $this->value();
     }
 
-    abstract public function value();
+    /**
+     * Raw string value getter
+     *
+     * @return string
+     */
+    public function value(): string
+    {
+        return $this->value;
+    }
 
     public static function validate($value): bool
     {
         if (! \is_string($value)) {
             return false;
         }
-        if (! static::multibyte() && \strlen($value) !== \mb_strlen($value)) {
+        if (! isset(self::$rules)) {
+            self::initRules();
+        }
+        if (! self::$rules['mb'] && \strlen($value) !== \mb_strlen($value)) {
             return false;
         }
-        if (static::hasConstant('STRING_REGEXP_PATTERN')) {
-            $pattern = static::constant('STRING_REGEXP_PATTERN');
-            if (! \preg_match($pattern, $value)) {
-                return false;
-            }
+        if (($pattern = self::$rules['regexp']) && ! \preg_match($pattern, $value)) {
+            return false;
         }
-        if (static::hasConstant('STRING_MINIMUM_LENGTH')) {
-            $min = static::constant('STRING_MINIMUM_LENGTH');
-            if (! \is_int($min) || $min < 0) {
-                throw new LogicException();
-            }
-            if (static::strlen($value) < $min) {
-                return false;
-            }
+        if (isset(self::$rules['min']) && self::strlen($value) < self::$rules['min']) {
+            return false;
         }
-        if (static::hasConstant('STRING_MAXIMUM_LENGTH')) {
-            $max = static::constant('STRING_MAXIMUM_LENGTH');
-            if (! \is_int($max) || (isset($min) && $max < $min)) {
-                throw new LogicException();
-            }
-            if (static::strlen($value) > $max) {
-                return false;
-            }
+        if (isset(self::$rules['max']) && self::strlen($value) > self::$rules['max']) {
+            return false;
         }
         return true;
     }
 
-    protected static function multibyte(): bool
+    private static function initRules(): void
     {
-        if (static::hasConstant('STRING_MULTIBYTE')) {
-            $mb = static::constant('STRING_MULTIBYTE');
+        self::$rules = [
+            'mb' => self::multibyte(),
+            'regexp' => null,
+            'min' => null,
+            'max' => null,
+        ];
+        if (self::hasConstant('STRING_REGEXP_PATTERN')) {
+            $pattern = self::constant('STRING_REGEXP_PATTERN');
+            if (@\preg_match($pattern, '') === false) {
+                throw new LogicException();
+            }
+            self::$rules['regexp'] = $pattern;
+        }
+        if (self::hasConstant('STRING_MINIMUM_LENGTH')) {
+            $min = self::constant('STRING_MINIMUM_LENGTH');
+            if (! \is_int($min) || $min < 0) {
+                throw new LogicException();
+            }
+            self::$rules['min'] = $min;
+        }
+        if (self::hasConstant('STRING_MAXIMUM_LENGTH')) {
+            $max = self::constant('STRING_MAXIMUM_LENGTH');
+            if (! \is_int($max) || (isset($min) && $max < $min)) {
+                throw new LogicException();
+            }
+            self::$rules['max'] = $max;
+        }
+    }
+
+    private static function multibyte(): bool
+    {
+        if (self::hasConstant('STRING_MULTIBYTE')) {
+            $mb = self::constant('STRING_MULTIBYTE');
             if (\is_bool($mb)) {
                 return $mb;
             }
@@ -62,8 +96,8 @@ trait StringValueTrait
         return true; // default
     }
 
-    protected static function strlen(string $value): int
+    private static function strlen(string $value): int
     {
-        return static::multibyte() ? \mb_strlen($value) : \strlen($value);
+        return self::multibyte() ? \mb_strlen($value) : \strlen($value);
     }
 }

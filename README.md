@@ -1,0 +1,1 @@
+# Immutable Value Object
