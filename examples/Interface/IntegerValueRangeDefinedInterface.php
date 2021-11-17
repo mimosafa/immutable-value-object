@@ -1,6 +1,6 @@
 <?php
 
-namespace Ivo\Mock\Interface;
+namespace Ivo\Example\Interface;
 
 use Ivo\Interface\IntegerValueInterface;
 

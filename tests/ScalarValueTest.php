@@ -2,7 +2,7 @@
 
 namespace Ivo\Test;
 
-use Ivo\Mock\ScalarValue;
+use Ivo\Example\ScalarValue;
 use PHPUnit\Framework\TestCase;
 
 final class ScalarValueTest extends TestCase

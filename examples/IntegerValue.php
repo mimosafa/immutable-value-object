@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Ivo\Mock;
+namespace Ivo\Example;
 
 use Ivo\Interface\IntegerValueInterface;
 use Ivo\Trait\IntegerValueTrait;

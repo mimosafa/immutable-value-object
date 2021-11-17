@@ -2,8 +2,8 @@
 
 namespace Ivo\Test;
 
-use Ivo\Mock\IntegerValue;
-use Ivo\Mock\IntegerValueRangeDefined;
+use Ivo\Example\IntegerValue;
+use Ivo\Example\IntegerValueRangeDefined;
 use PHPUnit\Framework\TestCase;
 
 final class IntegerValueTest extends TestCase

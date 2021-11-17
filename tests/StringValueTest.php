@@ -2,10 +2,10 @@
 
 namespace Ivo\Test;
 
-use Ivo\Mock\StringValue;
-use Ivo\Mock\StringValueLengthDefind;
-use Ivo\Mock\StringValueMultibyteNotAcceptable;
-use Ivo\Mock\StringValueRegexp;
+use Ivo\Example\StringValue;
+use Ivo\Example\StringValueLengthDefind;
+use Ivo\Example\StringValueMultibyteNotAcceptable;
+use Ivo\Example\StringValueRegexp;
 use PHPUnit\Framework\TestCase;
 use ValueError;
 

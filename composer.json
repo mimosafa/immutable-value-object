@@ -15,8 +15,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Ivo\\Test\\": "tests/",
-            "Ivo\\Mock\\": "tests/mocks/"
+            "Ivo\\Example\\": "examples/",
+            "Ivo\\Test\\": "tests/"
         }
     },
     "require-dev": {

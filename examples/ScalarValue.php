@@ -1,6 +1,6 @@
 <?php
 
-namespace Ivo\Mock;
+namespace Ivo\Example;
 
 use Ivo\Interface\ScalarValueInterface;
 use Ivo\Trait\ScalarValueTrait;

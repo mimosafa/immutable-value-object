@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Ivo\Mock;
+namespace Ivo\Example;
 
-use Ivo\Mock\Interface\StringValueMultibyteNotAcceptableInterface;
+use Ivo\Example\Interface\StringValueMultibyteNotAcceptableInterface;
 use Ivo\Trait\StringValueTrait;
 
 final class StringValueMultibyteNotAcceptable implements StringValueMultibyteNotAcceptableInterface

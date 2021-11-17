@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Ivo\Mock;
+namespace Ivo\Example;
 
-use Ivo\Mock\Interface\StringValueRegexpInterface;
+use Ivo\Example\Interface\StringValueRegexpInterface;
 use Ivo\Trait\StringValueTrait;
 
 final class StringValueRegexp implements StringValueRegexpInterface
