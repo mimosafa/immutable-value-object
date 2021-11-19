@@ -6,7 +6,7 @@ use Ivo\Example\IntegerValue;
 use Ivo\Example\IntegerValueRangeDefined;
 use PHPUnit\Framework\TestCase;
 
-final class IntegerValueTest extends TestCase
+final class IntegerTest extends TestCase
 {
     public function test_validate()
     {

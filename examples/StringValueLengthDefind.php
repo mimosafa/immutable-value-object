@@ -2,10 +2,10 @@
 
 namespace Ivo\Example;
 
-use Ivo\Example\Interface\StringValueLengthDefindInterface;
-use Ivo\Trait\StringValueTrait;
+use Ivo\Example\Interface\StringLengthDefindInterface;
+use Ivo\Trait\StringTrait;
 
-final class StringValueLengthDefind implements StringValueLengthDefindInterface
+final class StringValueLengthDefind implements StringLengthDefindInterface
 {
-    use StringValueTrait;
+    use StringTrait;
 }

@@ -2,10 +2,10 @@
 
 namespace Ivo\Example;
 
-use Ivo\Interface\StringValueInterface;
-use Ivo\Trait\StringValueTrait;
+use Ivo\Interface\StringInterface;
+use Ivo\Trait\StringTrait;
 
-final class StringValue implements StringValueInterface
+final class StringValue implements StringInterface
 {
-    use StringValueTrait;
+    use StringTrait;
 }

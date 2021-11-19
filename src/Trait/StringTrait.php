@@ -5,9 +5,9 @@ namespace Ivo\Trait;
 use Ivo\Util\HasConstantsTrait;
 use LogicException;
 
-trait StringValueTrait
+trait StringTrait
 {
-    use ScalarValueTrait, HasConstantsTrait;
+    use ScalarTrait, HasConstantsTrait;
 
     /**
      * Rules for acceptable string values

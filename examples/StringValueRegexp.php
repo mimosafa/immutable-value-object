@@ -2,10 +2,10 @@
 
 namespace Ivo\Example;
 
-use Ivo\Example\Interface\StringValueRegexpInterface;
-use Ivo\Trait\StringValueTrait;
+use Ivo\Example\Interface\StringRegexpInterface;
+use Ivo\Trait\StringTrait;
 
-final class StringValueRegexp implements StringValueRegexpInterface
+final class StringValueRegexp implements StringRegexpInterface
 {
-    use StringValueTrait;
+    use StringTrait;
 }

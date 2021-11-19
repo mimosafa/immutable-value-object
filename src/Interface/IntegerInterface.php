@@ -2,7 +2,7 @@
 
 namespace Ivo\Interface;
 
-interface IntegerValueInterface extends ScalarValueInterface
+interface IntegerInterface extends ScalarInterface
 {
     /**
      * Define the minimum range of the integer, if necessary

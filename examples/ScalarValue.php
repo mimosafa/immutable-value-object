@@ -2,12 +2,12 @@
 
 namespace Ivo\Example;
 
-use Ivo\Interface\ScalarValueInterface;
-use Ivo\Trait\ScalarValueTrait;
+use Ivo\Interface\ScalarInterface;
+use Ivo\Trait\ScalarTrait;
 
-final class ScalarValue implements ScalarValueInterface
+final class ScalarValue implements ScalarInterface
 {
-    use ScalarValueTrait;
+    use ScalarTrait;
 
     public static function validate($value): bool
     {

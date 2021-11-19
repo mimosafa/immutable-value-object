@@ -2,9 +2,9 @@
 
 namespace Ivo\Example\Interface;
 
-use Ivo\Interface\StringValueInterface;
+use Ivo\Interface\StringInterface;
 
-interface StringValueLengthDefindInterface extends StringValueInterface
+interface StringLengthDefindInterface extends StringInterface
 {
     public const STRING_MINIMUM_LENGTH = 4;
     public const STRING_MAXIMUM_LENGTH = 8;

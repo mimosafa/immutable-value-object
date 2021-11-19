@@ -2,10 +2,10 @@
 
 namespace Ivo\Example;
 
-use Ivo\Example\Interface\StringValueMultibyteNotAcceptableInterface;
-use Ivo\Trait\StringValueTrait;
+use Ivo\Example\Interface\StringMultibyteNotAcceptableInterface;
+use Ivo\Trait\StringTrait;
 
-final class StringValueMultibyteNotAcceptable implements StringValueMultibyteNotAcceptableInterface
+final class StringValueMultibyteNotAcceptable implements StringMultibyteNotAcceptableInterface
 {
-    use StringValueTrait;
+    use StringTrait;
 }

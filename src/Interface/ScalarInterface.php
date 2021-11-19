@@ -2,7 +2,7 @@
 
 namespace Ivo\Interface;
 
-interface ScalarValueInterface
+interface ScalarInterface
 {
     /**
      * Raw value getter

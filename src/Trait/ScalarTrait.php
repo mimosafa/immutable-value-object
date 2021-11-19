@@ -4,7 +4,7 @@ namespace Ivo\Trait;
 
 use ValueError;
 
-trait ScalarValueTrait
+trait ScalarTrait
 {
     /**
      * Raw value
@@ -14,7 +14,7 @@ trait ScalarValueTrait
     private $value;
 
     /**
-     * Raw value validater
+     * Raw value validator
      *
      * @abstract
      *
@@ -24,7 +24,7 @@ trait ScalarValueTrait
     abstract public static function validate($value): bool;
 
     /**
-     * Get instance with raw value
+     * Get instance from raw value
      *
      * @param mixed $value
      * @return static

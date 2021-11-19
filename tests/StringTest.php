@@ -9,7 +9,7 @@ use Ivo\Example\StringValueRegexp;
 use PHPUnit\Framework\TestCase;
 use ValueError;
 
-final class StringValueTest extends TestCase
+final class StringTest extends TestCase
 {
     public function test_to_string()
     {

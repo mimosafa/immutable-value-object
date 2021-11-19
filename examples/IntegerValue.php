@@ -2,10 +2,10 @@
 
 namespace Ivo\Example;
 
-use Ivo\Interface\IntegerValueInterface;
-use Ivo\Trait\IntegerValueTrait;
+use Ivo\Interface\IntegerInterface;
+use Ivo\Trait\IntegerTrait;
 
-final class IntegerValue implements IntegerValueInterface
+final class IntegerValue implements IntegerInterface
 {
-    use IntegerValueTrait;
+    use IntegerTrait;
 }

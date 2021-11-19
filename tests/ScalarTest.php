@@ -5,7 +5,7 @@ namespace Ivo\Test;
 use Ivo\Example\ScalarValue;
 use PHPUnit\Framework\TestCase;
 
-final class ScalarValueTest extends TestCase
+final class ScalarTest extends TestCase
 {
     public function test_instance()
     {

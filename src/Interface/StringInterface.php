@@ -4,7 +4,7 @@ namespace Ivo\Interface;
 
 use Stringable;
 
-interface StringValueInterface extends ScalarValueInterface, Stringable
+interface StringInterface extends ScalarInterface, Stringable
 {
     /**
      * Define whether to accept multibyte string as raw value
