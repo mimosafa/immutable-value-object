@@ -6,6 +6,6 @@ use Ivo\Interface\IntegerInterface;
 
 interface IntegerRangeDefinedInterface extends IntegerInterface
 {
-    public const INTEGER_MINIMUM_RANGE = 0;
-    public const INTEGER_MAXIMUM_RANGE = 255;
+    public const MINIMUM = 0;
+    public const MAXIMUM = 255;
 }

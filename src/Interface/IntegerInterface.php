@@ -9,14 +9,14 @@ interface IntegerInterface extends ScalarInterface
      *
      * @var int
      */
-    # public const INTEGER_MINIMUM_RANGE = -1000;
+    # public const MINIMUM = -1000;
 
     /**
      * Define the maximum range of the integer, if necessary
      *
      * @var int
      */
-    # public const INTEGER_MAXIMUM_RANGE = 9999;
+    # public const MAXIMUM = 9999;
 
     /**
      * Raw value getter

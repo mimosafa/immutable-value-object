@@ -28,40 +28,43 @@ trait IntegerTrait
 
     public static function validate($value): bool
     {
+        /**
+         * Validation rules
+         *
+         * @static
+         * @var array<string, bool>
+         */
+        static $rules;
+
         if (! \is_int($value)) {
             return false;
         }
-        if (! isset(self::$integerValueRules)) {
-            self::initRules();
+        if (! isset($rules)) {
+            $rules = [
+                'min' => null,
+                'max' => null,
+            ];
+            if (self::hasConstant('MINIMUM')) {
+                $min = self::constant('MINIMUM');
+                if (! \is_int($min)) {
+                    throw new LogicException();
+                }
+                $rules['min'] = $min;
+            }
+            if (self::hasConstant('MAXIMUM')) {
+                $max = self::constant('MAXIMUM');
+                if (! \is_int($max) || (isset($min) && $max < $min)) {
+                    throw new LogicException();
+                }
+                $rules['max'] = $max;
+            }
         }
-        if (isset(self::$integerValueRules['min']) && $value < self::$integerValueRules['min']) {
+        if (isset($rules['min']) && $value < $rules['min']) {
             return false;
         }
-        if (isset(self::$integerValueRules['max']) && $value > self::$integerValueRules['max']) {
+        if (isset($rules['max']) && $value > $rules['max']) {
             return false;
         }
         return true;
-    }
-
-    private static function initRules(): void
-    {
-        self::$integerValueRules = [
-            'min' => null,
-            'max' => null,
-        ];
-        if (self::hasConstant('INTEGER_MINIMUM_RANGE')) {
-            $min = self::constant('INTEGER_MINIMUM_RANGE');
-            if (! \is_int($min)) {
-                throw new LogicException();
-            }
-            self::$integerValueRules['min'] = $min;
-        }
-        if (self::hasConstant('INTEGER_MAXIMUM_RANGE')) {
-            $max = self::constant('INTEGER_MAXIMUM_RANGE');
-            if (! \is_int($max) || (isset($min) && $max < $min)) {
-                throw new LogicException();
-            }
-            self::$integerValueRules['max'] = $max;
-        }
     }
 }

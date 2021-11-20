@@ -6,6 +6,6 @@ use Ivo\Interface\StringInterface;
 
 interface StringLengthDefindInterface extends StringInterface
 {
-    public const STRING_MINIMUM_LENGTH = 4;
-    public const STRING_MAXIMUM_LENGTH = 8;
+    public const MINIMUM_LENGTH = 4;
+    public const MAXIMUM_LENGTH = 8;
 }

@@ -11,12 +11,6 @@ use ValueError;
 
 final class StringTest extends TestCase
 {
-    public function test_to_string()
-    {
-        $str = StringValue::instance('test');
-        $this->assertEquals('test', $str->__toString());
-    }
-
     public function test_value_error()
     {
         $int = 100;

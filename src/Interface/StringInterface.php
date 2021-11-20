@@ -2,9 +2,7 @@
 
 namespace Ivo\Interface;
 
-use Stringable;
-
-interface StringInterface extends ScalarInterface, Stringable
+interface StringInterface extends ScalarInterface
 {
     /**
      * Define whether to accept multibyte string as raw value
@@ -12,28 +10,28 @@ interface StringInterface extends ScalarInterface, Stringable
      *
      * @var bool
      */
-    # public const MULTIBYTE_STRING_ACCEPTABLE = false;
+    # public const MULTIBYTE = false;
 
     /**
      * Define an acceptable string regex pattern, if necessary
      *
      * @var string Regexp
      */
-    # public const STRING_REGEXP_PATTERN = '/\w+/';
+    # public const REGEXP_PATTERN = '/\w+/';
 
     /**
      * Define the minimum length of the string, if necessary
      *
      * @var int
      */
-    # public const STRING_MINIMUM_LENGTH = 0;
+    # public const MINIMUM_LENGTH = 0;
 
     /**
      * Define the maximum length of the string, if necessary
      *
      * @var int
      */
-    # public const STRING_MAXIMUM_LENGTH = 256;
+    # public const MAXIMUM_LENGTH = 256;
 
     /**
      * Raw value getter
