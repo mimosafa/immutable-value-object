@@ -2,8 +2,7 @@
 
 namespace Ivo\Test;
 
-use Ivo\Example\IntegerValue;
-use Ivo\Example\IntegerValueRangeDefined;
+use Ivo\Trait\IntegerTrait;
 use PHPUnit\Framework\TestCase;
 
 final class IntegerTest extends TestCase
@@ -12,12 +11,12 @@ final class IntegerTest extends TestCase
     {
         $maybeOks = [-3, 0, 1, 999999, 0x1A, 0b1101, \PHP_INT_MAX,];
         foreach ($maybeOks as $maybeOk) {
-            $this->assertTrue(IntegerValue::validate($maybeOk));
+            $this->assertTrue(MockInteger::validate($maybeOk));
         }
 
         $maybeNgs = ['1', 3.14, true, \M_PI, \INF,];
         foreach ($maybeNgs as $maybeNg) {
-            $this->assertFalse(IntegerValue::validate($maybeNg));
+            $this->assertFalse(MockInteger::validate($maybeNg));
         }
     }
 
@@ -25,12 +24,24 @@ final class IntegerTest extends TestCase
     {
         $maybeOks = [0, 100, 255, 0b011111111,];
         foreach ($maybeOks as $maybeOk) {
-            $this->assertTrue(IntegerValueRangeDefined::validate($maybeOk));
+            $this->assertTrue(MockIntegerHasRange::validate($maybeOk));
         }
 
         $maybeNgs = [-1, 256, 0b100000000];
         foreach ($maybeNgs as $maybeNg) {
-            $this->assertFalse(IntegerValueRangeDefined::validate($maybeNg));
+            $this->assertFalse(MockIntegerHasRange::validate($maybeNg));
         }
     }
+}
+
+final class MockInteger
+{
+    use IntegerTrait;
+}
+
+final class MockIntegerHasRange
+{
+    use IntegerTrait;
+    const MINIMUM = 0;
+    const MAXIMUM = 255;
 }

@@ -2,32 +2,41 @@
 
 namespace Ivo\Test;
 
-use Ivo\Example\StringValue;
-use Ivo\Example\StringValueLengthDefind;
-use Ivo\Example\StringValueMultibyteNotAcceptable;
-use Ivo\Example\StringValueRegexp;
+use Faker\Factory;
+use Ivo\Trait\StringTrait;
 use PHPUnit\Framework\TestCase;
-use ValueError;
 
 final class StringTest extends TestCase
 {
-    public function test_value_error()
+    /**
+     * Class `MockString` defined in this file
+     */
+    public function test_validate()
     {
-        $int = 100;
-        $this->assertFalse(StringValue::validate($int));
-        $this->expectException(ValueError::class);
-        StringValue::instance($int);
+        $faker = Factory::create();
+
+        $string = $faker->word();
+        $this->assertTrue(MockString::validate($string));
+
+        $integer = $faker->randomNumber();
+        $this->assertFalse(MockString::validate($integer));
+
+        $bool = $faker->boolean();
+        $this->assertFalse(MockString::validate($bool));
+
+        $null = null;
+        $this->assertFalse(MockString::validate($null));
     }
 
-    public function test_multibyte_not_acceptable()
+    public function test_single_byte_string()
     {
         $maybeTrues = ['abcdefg', '12345', '_\\/.~*&', '',];
         foreach ($maybeTrues as $maybeTrue) {
-            $this->assertTrue(StringValueMultibyteNotAcceptable::validate($maybeTrue));
+            $this->assertTrue(MockStringSingleByte::validate($maybeTrue));
         }
         $maybeFalses = ['あいうえお', '１２３４５', '＿￥／．〜＊＆', '　'];
         foreach ($maybeFalses as $maybeFalse) {
-            $this->assertFalse(StringValueMultibyteNotAcceptable::validate($maybeFalse));
+            $this->assertFalse(MockStringSingleByte::validate($maybeFalse));
         }
     }
 
@@ -35,25 +44,62 @@ final class StringTest extends TestCase
     {
         $maybeTrues = ['abcdefghijklmnopqrstuvwxyz', 'abz',];
         foreach ($maybeTrues as $maybeTrue) {
-            $this->assertTrue(StringValueRegexp::validate($maybeTrue));
+            $this->assertTrue(MockStringHasRegexp::validate($maybeTrue));
         }
 
         $maybeFalses = ['abc', 'ａｂｃｄｚ', 'a2349z', 'xyz', 'a b z'];
         foreach ($maybeFalses as $maybeFalse) {
-            $this->assertFalse(StringValueRegexp::validate($maybeFalse));
+            $this->assertFalse(MockStringHasRegexp::validate($maybeFalse));
         }
     }
 
-    public function test_length_defined()
+    public function test_length()
     {
         $maybeTrues = ['abcd', 'abcdff', 'abcdefgh', 'あいうえ', 'いろはにほへとち', '_ _ _',];
         foreach ($maybeTrues as $maybeTrue) {
-            $this->assertTrue(StringValueLengthDefind::validate($maybeTrue));
+            $this->assertTrue(MockStringHasLength::validate($maybeTrue));
         }
 
         $maybeFalses = ['abc', '', 'pqrstuvxw', 'あいう',];
         foreach ($maybeFalses as $maybeFalse) {
-            $this->assertFalse(StringValueLengthDefind::validate($maybeFalse));
+            $this->assertFalse(MockStringHasLength::validate($maybeFalse));
         }
     }
+}
+
+
+/**
+ * Mock class for `test_validate()`
+ */
+final class MockString
+{
+    use StringTrait;
+}
+
+/**
+ * Mock class for `test_single_byte_string()`
+ */
+final class MockStringSingleByte
+{
+    use StringTrait;
+    const MULTIBYTE = false;
+}
+
+/**
+ * Mock class for `test_regexp()`
+ */
+final class MockStringHasRegexp
+{
+    use StringTrait;
+    const REGEXP = '/^a[b-y]+z$/';
+}
+
+/**
+ * Mock class for `test_length()`
+ */
+final class MockStringHasLength
+{
+    use StringTrait;
+    const MINIMUM_LENGTH = 4;
+    const MAXIMUM_LENGTH = 8;
 }

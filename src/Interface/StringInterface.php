@@ -17,7 +17,7 @@ interface StringInterface extends ScalarInterface
      *
      * @var string Regexp
      */
-    # public const REGEXP_PATTERN = '/\w+/';
+    # public const REGEXP = '/\w+/';
 
     /**
      * Define the minimum length of the string, if necessary

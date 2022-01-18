@@ -10,6 +10,13 @@ trait StringTrait
     use ScalarTrait, HasConstantsTrait;
 
     /**
+     * Rules for acceptable integer values
+     *
+     * @var array<string, array>
+     */
+    protected static $rulesForString = [];
+
+    /**
      * Raw string value getter
      *
      * @return string
@@ -21,75 +28,69 @@ trait StringTrait
 
     public static function validate($value): bool
     {
-        /**
-         * Validation rules
-         *
-         * @static
-         * @var array<string, mixed|null>
-         */
-        static $rules;
-
         if (! \is_string($value)) {
             return false;
         }
-        if (! isset($rules)) {
+
+        $class = \get_called_class();
+        if (! isset(self::$rulesForString[$class])) {
             $rules = [
-                'mb' => self::multibyte(),
+                'mb' => null,
                 'regexp' => null,
                 'min' => null,
                 'max' => null,
             ];
-            if (self::hasConstant('REGEXP_PATTERN')) {
-                $pattern = self::constant('REGEXP_PATTERN');
+            if (static::hasConstant('MULTIBYTE')) {
+                $mb = static::constant('MULTIBYTE');
+                if (! \is_bool($mb)) {
+                    throw new LogicException();
+                }
+                $rules['mb'] = $mb;
+            }
+            if (static::hasConstant('REGEXP')) {
+                $pattern = static::constant('REGEXP');
                 if (@\preg_match($pattern, '') === false) {
                     throw new LogicException();
                 }
                 $rules['regexp'] = $pattern;
             }
-            if (self::hasConstant('MINIMUM_LENGTH')) {
-                $min = self::constant('MINIMUM_LENGTH');
+            if (static::hasConstant('MINIMUM_LENGTH')) {
+                $min = static::constant('MINIMUM_LENGTH');
                 if (! \is_int($min) || $min < 0) {
                     throw new LogicException();
                 }
                 $rules['min'] = $min;
             }
-            if (self::hasConstant('MAXIMUM_LENGTH')) {
-                $max = self::constant('MAXIMUM_LENGTH');
+            if (static::hasConstant('MAXIMUM_LENGTH')) {
+                $max = static::constant('MAXIMUM_LENGTH');
                 if (! \is_int($max) || (isset($min) && $max < $min)) {
                     throw new LogicException();
                 }
                 $rules['max'] = $max;
             }
+            self::$rulesForString[$class] = $rules;
         }
-        if (! $rules['mb'] && \strlen($value) !== \mb_strlen($value)) {
+        $rules = self::$rulesForString[$class];
+
+        if ($rules['mb'] === false && \strlen($value) !== \mb_strlen($value)) {
             return false;
         }
         if (($pattern = $rules['regexp']) && ! \preg_match($pattern, $value)) {
             return false;
         }
-        if (isset($rules['min']) && self::strlen($value) < $rules['min']) {
+        if (isset($rules['min']) && static::strlen($value) < $rules['min']) {
             return false;
         }
-        if (isset($rules['max']) && self::strlen($value) > $rules['max']) {
+        if (isset($rules['max']) && static::strlen($value) > $rules['max']) {
             return false;
         }
         return true;
     }
 
-    private static function multibyte(): bool
+    protected static function strlen(string $value): int
     {
-        if (self::hasConstant('MULTIBYTE')) {
-            $mb = self::constant('MULTIBYTE');
-            if (\is_bool($mb)) {
-                return $mb;
-            }
-            throw new LogicException();
-        }
-        return true; // default
-    }
-
-    private static function strlen(string $value): int
-    {
-        return self::multibyte() ? \mb_strlen($value) : \strlen($value);
+        $class = \get_called_class();
+        $mb = self::$rulesForString[$class]['mb'] ?? true;
+        return $mb ? \mb_strlen($value) : \strlen($value);
     }
 }

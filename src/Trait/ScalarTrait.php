@@ -11,7 +11,7 @@ trait ScalarTrait
      *
      * @var mixed
      */
-    private $value;
+    protected $value;
 
     /**
      * Raw value validator
@@ -31,19 +31,22 @@ trait ScalarTrait
      */
     public static function instance($value): static
     {
-        return new self($value);
+        if ($value instanceof static) {
+            return new static($value->value());
+        }
+        return new static($value);
     }
 
     /**
      * Constructor
      *
-     * @access private
+     * @access protected
      *
      * @param mixed $value
      */
-    private function __construct($value)
+    protected function __construct($value)
     {
-        if (! self::validate($value)) {
+        if (! static::validate($value)) {
             throw new ValueError();
         }
         $this->value = $value;

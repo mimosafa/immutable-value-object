@@ -12,9 +12,9 @@ trait IntegerTrait
     /**
      * Rules for acceptable integer values
      *
-     * @var array
+     * @var array<string, array>
      */
-    private static $integerValueRules;
+    protected static $rulesForInteger;
 
     /**
      * Raw integer value getter
@@ -28,37 +28,34 @@ trait IntegerTrait
 
     public static function validate($value): bool
     {
-        /**
-         * Validation rules
-         *
-         * @static
-         * @var array<string, bool>
-         */
-        static $rules;
-
         if (! \is_int($value)) {
             return false;
         }
-        if (! isset($rules)) {
+
+        $class = \get_called_class();
+        if (! isset(self::$rulesForInteger[$class])) {
             $rules = [
                 'min' => null,
                 'max' => null,
             ];
-            if (self::hasConstant('MINIMUM')) {
-                $min = self::constant('MINIMUM');
+            if (static::hasConstant('MINIMUM')) {
+                $min = static::constant('MINIMUM');
                 if (! \is_int($min)) {
                     throw new LogicException();
                 }
                 $rules['min'] = $min;
             }
-            if (self::hasConstant('MAXIMUM')) {
-                $max = self::constant('MAXIMUM');
+            if (static::hasConstant('MAXIMUM')) {
+                $max = static::constant('MAXIMUM');
                 if (! \is_int($max) || (isset($min) && $max < $min)) {
                     throw new LogicException();
                 }
                 $rules['max'] = $max;
             }
+            self::$rulesForInteger[$class] = $rules;
         }
+        $rules = self::$rulesForInteger[$class];
+
         if (isset($rules['min']) && $value < $rules['min']) {
             return false;
         }

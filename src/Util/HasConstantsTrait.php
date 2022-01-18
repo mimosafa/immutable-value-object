@@ -4,18 +4,18 @@ namespace Ivo\Util;
 
 trait HasConstantsTrait
 {
-    private static function constant(string $name)
+    protected static function constant(string $name)
     {
-        return self::hasConstant($name) ? \constant(self::constantName($name)) : null;
+        return static::hasConstant($name) ? \constant(static::constantName($name)) : null;
     }
 
-    private static function hasConstant(string $name): bool
+    protected static function hasConstant(string $name): bool
     {
-        return \defined(self::constantName($name));
+        return \defined(static::constantName($name));
     }
 
-    private static function constantName(string $name): string
+    protected static function constantName(string $name): string
     {
-        return self::class . '::' . $name;
+        return static::class . '::' . $name;
     }
 }
