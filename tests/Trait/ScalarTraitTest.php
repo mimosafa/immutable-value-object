@@ -42,21 +42,11 @@ final class ScalarTraitTest extends TestCase
 class MockScalar
 {
     use ScalarTrait;
-
-    public static function validate($value): bool
-    {
-        return \is_scalar($value);
-    }
 }
 
 class MockScalarAnother
 {
     use ScalarTrait;
-
-    public static function validate($value): bool
-    {
-        return \is_scalar($value);
-    }
 }
 
 class MockScalarInherited extends MockScalar

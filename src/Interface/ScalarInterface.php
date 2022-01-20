@@ -20,9 +20,7 @@ interface ScalarInterface
     public function equals($value): bool;
 
     /**
-     * Raw value validater
-     *
-     * @abstract
+     * Validate a given value
      *
      * @param mixed $value
      * @return bool

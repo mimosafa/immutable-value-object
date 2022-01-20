@@ -16,12 +16,13 @@ trait ScalarTrait
     /**
      * Raw value validator
      *
-     * @abstract
-     *
      * @param mixed $value
      * @return bool
      */
-    abstract public static function validate($value): bool;
+    public static function validate($value): bool
+    {
+        return \is_scalar($value);
+    }
 
     /**
      * Get instance from raw value

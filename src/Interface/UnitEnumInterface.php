@@ -6,6 +6,8 @@ namespace Ivo\Interface;
  * Pseudo UnitEnum interface
  *
  * @see https://www.php.net/manual/en/class.unitenum.php
+ *
+ * @property-read string $name
  */
 interface UnitEnumInterface
 {

@@ -6,6 +6,8 @@ namespace Ivo\Interface;
  * Pseudo BackedEnum interface
  *
  * @see https://www.php.net/manual/en/class.backedenum.php
+ *
+ * @property-read int|string $value
  */
 interface BackedEnumInterface extends UnitEnumInterface
 {

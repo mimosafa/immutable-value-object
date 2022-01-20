@@ -31,47 +31,7 @@ trait StringTrait
         if (! \is_string($value)) {
             return false;
         }
-
-        $class = \get_called_class();
-        if (! isset(self::$rulesForString[$class])) {
-            $rules = [
-                'mb' => null,
-                'regexp' => null,
-                'min' => null,
-                'max' => null,
-            ];
-            if (static::hasConstant('MULTIBYTE')) {
-                $mb = static::constant('MULTIBYTE');
-                if (! \is_bool($mb)) {
-                    throw new LogicException();
-                }
-                $rules['mb'] = $mb;
-            }
-            if (static::hasConstant('REGEXP')) {
-                $pattern = static::constant('REGEXP');
-                if (@\preg_match($pattern, '') === false) {
-                    throw new LogicException();
-                }
-                $rules['regexp'] = $pattern;
-            }
-            if (static::hasConstant('MINIMUM_LENGTH')) {
-                $min = static::constant('MINIMUM_LENGTH');
-                if (! \is_int($min) || $min < 0) {
-                    throw new LogicException();
-                }
-                $rules['min'] = $min;
-            }
-            if (static::hasConstant('MAXIMUM_LENGTH')) {
-                $max = static::constant('MAXIMUM_LENGTH');
-                if (! \is_int($max) || (isset($min) && $max < $min)) {
-                    throw new LogicException();
-                }
-                $rules['max'] = $max;
-            }
-            self::$rulesForString[$class] = $rules;
-        }
-        $rules = self::$rulesForString[$class];
-
+        $rules = static::stringRules();
         if ($rules['mb'] === false && \strlen($value) !== \mb_strlen($value)) {
             return false;
         }
@@ -87,10 +47,54 @@ trait StringTrait
         return true;
     }
 
-    protected static function strlen(string $value): int
+    protected static function stringRules(): array
     {
         $class = \get_called_class();
-        $mb = self::$rulesForString[$class]['mb'] ?? true;
+        return self::$rulesForString[$class] ?? self::$rulesForString[$class] = static::initStringRules();
+    }
+
+    protected static function initStringRules(): array
+    {
+        $rules = [
+            'mb' => null,
+            'regexp' => null,
+            'min' => null,
+            'max' => null,
+        ];
+        if (static::hasConstant('MULTIBYTE')) {
+            $mb = static::constant('MULTIBYTE');
+            if (! \is_bool($mb)) {
+                throw new LogicException();
+            }
+            $rules['mb'] = $mb;
+        }
+        if (static::hasConstant('REGEXP')) {
+            $pattern = static::constant('REGEXP');
+            if (@\preg_match($pattern, '') === false) {
+                throw new LogicException();
+            }
+            $rules['regexp'] = $pattern;
+        }
+        if (static::hasConstant('MINIMUM_LENGTH')) {
+            $min = static::constant('MINIMUM_LENGTH');
+            if (! \is_int($min) || $min < 0) {
+                throw new LogicException();
+            }
+            $rules['min'] = $min;
+        }
+        if (static::hasConstant('MAXIMUM_LENGTH')) {
+            $max = static::constant('MAXIMUM_LENGTH');
+            if (! \is_int($max) || (isset($min) && $max < $min)) {
+                throw new LogicException();
+            }
+            $rules['max'] = $max;
+        }
+        return $rules;
+    }
+
+    protected static function strlen(string $value): int
+    {
+        $mb = self::$rulesForString[\get_called_class()]['mb'] ?? true;
         return $mb ? \mb_strlen($value) : \strlen($value);
     }
 }

@@ -78,6 +78,12 @@ trait PseudoEnumTrait
         return static::validate($value) ? static::instance($value) : null;
     }
 
+    /**
+     * Validate given value
+     *
+     * @param mixed $value
+     * @return boolean
+     */
     public static function validate($value): bool
     {
         return \is_scalar($value) && \in_array($value, static::toArray(), true);
@@ -104,6 +110,12 @@ trait PseudoEnumTrait
         return \array_map([$class, 'instance'], static::toArray());
     }
 
+    /**
+     * Searches the Enum Cases array for a given value and returns the corresponding key if successful
+     *
+     * @param int|atring $value
+     * @return string|false
+     */
     public static function search($value): string|false
     {
         return static::validate($value) ? \array_search($value, static::toArray(), true) : false;
