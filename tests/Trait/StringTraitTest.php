@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Ivo\Test;
+namespace Ivo\Test\Trait;
 
 use Faker\Factory;
 use Ivo\Trait\StringTrait;
 use PHPUnit\Framework\TestCase;
 
-final class StringTest extends TestCase
+final class StringTraitTest extends TestCase
 {
     /**
      * Class `MockString` defined in this file

@@ -1,30 +1,25 @@
 <?php declare(strict_types=1);
 
-namespace Ivo\Test;
+namespace Ivo\Test\Trait;
 
 use Ivo\Trait\PseudoEnumTrait;
 use PHPUnit\Framework\TestCase;
 
-final class PseudoEnumTest extends TestCase
+final class PseudoEnumTraitTest extends TestCase
 {
-    public function test_to_array()
-    {
-        $shikoku = [
-            'Tokushima' => '徳島県',
-            'Kagawa' => '香川県',
-            'Ehime' => '愛媛県',
-            'Kochi' => '高知県',
-        ];
-        $this->assertEquals($shikoku, MockEnumShikoku::toArray());
-    }
-
-    public function test_key_and_name_property()
+    public function test_name_method_and_property()
     {
         $kochi = MockEnumShikoku::from('高知県');
-        $this->assertEquals('Kochi', $kochi->key());
+        $this->assertEquals('Kochi', $kochi->name());
 
         $ehime = MockEnumShikoku::from('愛媛県');
         $this->assertEquals('Ehime', $ehime->name);
+    }
+
+    public function test_value_property()
+    {
+        $kagawa = MockEnumShikoku::from('香川県');
+        $this->assertEquals('香川県', $kagawa->value);
     }
 }
 

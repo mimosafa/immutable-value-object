@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Ivo\Test;
+namespace Ivo\Test\Trait;
 
 use Faker\Factory;
 use Ivo\Trait\ScalarTrait;
 use PHPUnit\Framework\TestCase;
 
-final class ScalarTest extends TestCase
+final class ScalarTraitTest extends TestCase
 {
     public function test_value()
     {

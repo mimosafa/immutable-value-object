@@ -2,40 +2,77 @@
 
 namespace Ivo\Trait;
 
-use LogicException;
-use ReflectionClass;
+use Ivo\Util\HasEnumConstantsTrait;
 use ValueError;
 
 /**
- * @property string $name
+ * Pseudo Enum trait
+ *
+ * @property-read string $name
+ * @property-read int|string $value
  */
 trait PseudoEnumTrait
 {
-    use ScalarTrait;
+    use ScalarTrait, HasEnumConstantsTrait;
 
-    protected static $enums = [];
-
-    public function key(): string
+    /**
+     * Get name of enum
+     *
+     * @return string
+     */
+    public function name(): string
     {
         return static::search($this->value());
     }
 
+    /**
+     * Read-only properties getter
+     *
+     * @param string $name
+     * @return string|int
+     */
     public function __get($name)
     {
         if ($name === 'name') {
-            return $this->key();
+            /**
+             * @see https://www.php.net/manual/en/language.enumerations.basics.php
+             */
+            return $this->name();
+        }
+        if ($name === 'value') {
+            /**
+             * @see https://www.php.net/manual/en/language.enumerations.backed.php
+             */
+            return $this->value();
         }
         \trigger_error("Undefined property: {$name}", E_USER_WARNING);
     }
 
+    /**
+     * Maps a scalar to an enum instance
+     *
+     * @see https://www.php.net/manual/en/language.enumerations.backed.php
+     *
+     * @param mixed $value
+     * @return static
+     * @throws ValueError
+     */
     public static function from($value): static
     {
-        if ($enum = static::tryFrom($value)) {
-            return $enum;
+        if ($case = static::tryFrom($value)) {
+            return $case;
         }
         throw new ValueError();
     }
 
+    /**
+     * Maps a scalar to an enum instance or null
+     *
+     * @see https://www.php.net/manual/en/language.enumerations.backed.php
+     *
+     * @param mixed $value
+     * @return static|null
+     */
     public static function tryFrom($value): ?static
     {
         return static::validate($value) ? static::instance($value) : null;
@@ -46,58 +83,29 @@ trait PseudoEnumTrait
         return \is_scalar($value) && \in_array($value, static::toArray(), true);
     }
 
+    /**
+     * Generates a list of cases on an enum
+     *
+     * @return array<static>
+     */
     public static function cases(): array
     {
-        $class = \get_called_class();
-        return \array_map([$class, 'instance'], \array_values(static::toArray()));
+        return \array_values(static::all());
     }
 
-    public static function toArray(): array
+    /**
+     * Get all Enum Cases with name
+     *
+     * @return array<string, static>
+     */
+    public static function all(): array
     {
         $class = \get_called_class();
-        return static::$enums[$class] ?? static::$enums[$class] = self::expandConstantsToEnums();
+        return \array_map([$class, 'instance'], static::toArray());
     }
 
     public static function search($value): string|false
     {
         return static::validate($value) ? \array_search($value, static::toArray(), true) : false;
-    }
-
-    protected static function extractConstantsToEnums(): array
-    {
-        return [];
-    }
-
-    protected static function excludeConstantsFromEnums(): array
-    {
-        return [];
-    }
-
-    protected static function expandConstantsToEnums(): array
-    {
-        $enums = (new ReflectionClass(\get_called_class()))->getConstants();
-
-        if ($extracted = static::extractConstantsToEnums()) {
-            $enums = \array_filter($enums, function (string $key) use ($extracted) {
-                return \in_array($key, $extracted, true);
-            }, ARRAY_FILTER_USE_KEY);
-        }
-        else if ($excluded = static::excludeConstantsFromEnums()) {
-            $enums = \array_filter($enums, function (string $key) use ($excluded) {
-                return ! \in_array($key, $excluded, true);
-            }, ARRAY_FILTER_USE_KEY);
-        }
-
-        if (\count($enums) !== \count(\array_unique($enums))) {
-            throw new LogicException();
-        }
-
-        foreach ($enums as $value) {
-            if (! \is_int($value) && ! \is_string($value)) {
-                throw new LogicException();
-            }
-        }
-
-        return $enums;
     }
 }

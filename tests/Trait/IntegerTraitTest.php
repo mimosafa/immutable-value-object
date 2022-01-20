@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Ivo\Test;
+namespace Ivo\Test\Trait;
 
 use Ivo\Trait\IntegerTrait;
 use PHPUnit\Framework\TestCase;
 
-final class IntegerTest extends TestCase
+final class IntegerTraitTest extends TestCase
 {
     public function test_validate()
     {
