@@ -9,13 +9,29 @@ trait ComputableTrait
 {
     use ScalarTrait, HasConstantsTrait;
 
+    /**
+     * Rules cache for computable value
+     *
+     * @var array<string, array<string, mixed>>
+     */
     protected static $rulesForComputable = [];
 
+    /**
+     * Get a scalar value
+     *
+     * @return integer|float
+     */
     public function value(): int|float
     {
         return $this->value;
     }
 
+    /**
+     * Validate a given value
+     *
+     * @param mixed $value
+     * @return boolean
+     */
     public static function validate($value): bool
     {
         if (! static::validateType($value)) {
@@ -40,17 +56,33 @@ trait ComputableTrait
         return true;
     }
 
+    /**
+     * Validate a given value type
+     *
+     * @param mixed $value
+     * @return boolean
+     */
     protected static function validateType($value): bool
     {
         return \is_int($value) || (\is_float($value) && ! \is_nan($value) && ! \is_infinite($value));
     }
 
+    /**
+     * Get validation rule
+     *
+     * @return array<string, mixed>
+     */
     protected static function computableRules(): array
     {
         $class = \get_called_class();
         return self::$rulesForComputable[$class] ?? self::$rulesForComputable[$class] = static::initComputableRules();
     }
 
+    /**
+     * Initialize validation rule
+     *
+     * @return array<string, mixed>
+     */
     protected static function initComputableRules(): array
     {
         $rules = [
@@ -62,7 +94,7 @@ trait ComputableTrait
 
         if (static::hasConstant('GREATER_THAN_OR_EQUAL_TO')) {
             $gte = static::constant('GREATER_THAN_OR_EQUAL_TO');
-            if (! \is_int($gte) && ! \is_float($gte)) {
+            if (! self::validateType($gte)) {
                 throw new LogicException();
             }
             $rules['gte'] = $gte;
@@ -72,7 +104,7 @@ trait ComputableTrait
                 throw new LogicException();
             }
             $gt = static::constant('GREATER_THAN');
-            if (! \is_int($gt) && ! \is_float($gt)) {
+            if (! self::validateType($gt)) {
                 throw new LogicException();
             }
             $rules['gt'] = $gt;
@@ -80,7 +112,7 @@ trait ComputableTrait
 
         if (static::hasConstant('LESS_THAN')) {
             $lt = static::constant('LESS_THAN');
-            if (! \is_int($lt) && ! \is_float($lt)) {
+            if (! self::validateType($lt)) {
                 throw new LogicException();
             }
             if (isset($rules['gte']) && $lt <= $rules['gte']) {
@@ -96,7 +128,7 @@ trait ComputableTrait
                 throw new LogicException();
             }
             $lte = static::constant('LESS_THAN_OR_EQUAL_TO');
-            if (! \is_int($lte) && ! \is_float($lte)) {
+            if (! self::validateType($lte)) {
                 throw new LogicException();
             }
             if (isset($rules['gte']) && $lte < $rules['gte']) {

@@ -79,7 +79,7 @@ trait PseudoEnumTrait
     }
 
     /**
-     * Validate given value
+     * Validate a given value
      *
      * @param mixed $value
      * @return boolean

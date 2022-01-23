@@ -5,7 +5,7 @@ namespace Ivo\Interface;
 interface ScalarInterface
 {
     /**
-     * Raw value getter
+     * Get a scalar value
      *
      * @return mixed
      */

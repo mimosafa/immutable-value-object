@@ -7,14 +7,14 @@ use ValueError;
 trait ScalarTrait
 {
     /**
-     * Raw value
+     * Scalar value
      *
      * @var mixed
      */
     protected $value;
 
     /**
-     * Raw value validator
+     * Validate a given value
      *
      * @param mixed $value
      * @return bool
@@ -25,7 +25,7 @@ trait ScalarTrait
     }
 
     /**
-     * Get instance from raw value
+     * Get instance with raw value
      *
      * @param mixed $value
      * @return static
@@ -54,7 +54,7 @@ trait ScalarTrait
     }
 
     /**
-     * Raw value getter
+     * Get a scalar value
      *
      * @return mixed
      */

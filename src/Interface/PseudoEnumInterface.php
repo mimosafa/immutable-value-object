@@ -5,7 +5,7 @@ namespace Ivo\Interface;
 interface PseudoEnumInterface extends BackedEnumInterface, ScalarInterface
 {
     /**
-     * Name of Enum Case
+     * Get the case-sensitive name of the case itself
      *
      * @return string
      */

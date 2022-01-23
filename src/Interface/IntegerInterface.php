@@ -5,7 +5,7 @@ namespace Ivo\Interface;
 interface IntegerInterface extends ComputableInterface
 {
     /**
-     * Raw value getter
+     * Get an integer value
      *
      * @return int
      */

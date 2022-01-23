@@ -13,7 +13,7 @@ interface ComputableInterface extends ScalarInterface
     # const LESS_THAN_OR_EQUAL_TO = 10;
 
     /**
-     * Get scalar value
+     * Get a scalar value
      *
      * @return integer|float
      */

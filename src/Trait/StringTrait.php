@@ -17,7 +17,7 @@ trait StringTrait
     protected static $rulesForString = [];
 
     /**
-     * Raw string value getter
+     * Get a string value
      *
      * @return string
      */

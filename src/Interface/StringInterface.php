@@ -34,7 +34,7 @@ interface StringInterface extends ScalarInterface
     # public const MAXIMUM_LENGTH = 256;
 
     /**
-     * Raw value getter
+     * Get a string value
      *
      * @return string
      */
