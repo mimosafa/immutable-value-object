@@ -4,6 +4,7 @@ namespace Ivo\Trait;
 
 use Ivo\Util\HasConstantsTrait;
 use LogicException;
+use Stringable;
 
 trait StringTrait
 {
@@ -28,9 +29,11 @@ trait StringTrait
 
     public static function validate($value): bool
     {
-        if (! \is_string($value)) {
+        if (! \is_string($value) && ! $value instanceof Stringable) {
             return false;
         }
+        $value = $value instanceof Stringable ? $value->__toString() : $value;
+
         $rules = static::stringRules();
         if ($rules['mb'] === false && \strlen($value) !== \mb_strlen($value)) {
             return false;
