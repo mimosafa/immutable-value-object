@@ -5,6 +5,7 @@ namespace Ivo\Trait;
 use Ivo\Util\HasConstantsTrait;
 use LogicException;
 use Stringable;
+use ValueError;
 
 trait StringTrait
 {
@@ -16,6 +17,24 @@ trait StringTrait
      * @var array<string, array>
      */
     protected static $rulesForString = [];
+
+    /**
+     * Constructor
+     *
+     * Overwritten ScalarTrait::__construct
+     *
+     * @access protected
+     *
+     * @param mixed $value
+     */
+    protected function __construct($value)
+    {
+        if (! static::validate($value)) {
+            throw new ValueError();
+        }
+        $value = $value instanceof Stringable ? $value->__toString() : $value;
+        $this->value = $value;
+    }
 
     /**
      * Get a string value
